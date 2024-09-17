@@ -1,15 +1,25 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <monheader></monheader>
+  <img alt="Vue logo" src="./assets/logo.png">*
+  <Affiche></Affiche>
+  <monfooter></monfooter>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import monheader from './components/header.vue'
+import monfooter from './components/footer.vue'
+import Affiche from './components/affiche.vue';
+//import HelloWorld from './components/HelloWorld.vue';
+
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    monheader,
+  //  HelloWorld,
+    monfooter,
+    Affiche,
+    
   }
 }
 </script>
@@ -24,3 +34,4 @@ export default {
   margin-top: 60px;
 }
 </style>
+
