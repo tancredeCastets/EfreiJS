@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <h1>Header</h1>
+        <h1>E-commerce</h1>
     </div>
   </template>
  
@@ -13,8 +13,8 @@
   <style scoped>
   .container {
     align-items: start;
-    margin: 10px 0 0;
-    background-color: blue;
-    color: green;
+    margin: 10px 1 0;
+    background-color: rgb(152, 152, 219);
+    color: rgb(202, 204, 83);
     }
   </style>
