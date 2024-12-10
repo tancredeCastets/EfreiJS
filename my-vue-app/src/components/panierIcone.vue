@@ -1,21 +1,18 @@
 <template>
-  <div class="panier-icone-container">
-    <i class="fas fa-shopping-panier panier-icon"></i>
-    
-    <!-- Badge qui affiche le nombre d'articles -->
+  <div class="panier-icon-container">
+    <i class="fas fa-shopping-cart panier-icon"></i>
     <div class="panier-badge" v-if="panierCount > 0">{{ panierCount }}</div>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { store } from '../panier';  // ou vuex selon ton setup
 
 export default {
   name: 'panierIcone',
   computed: {
-    ...mapState(['panier']), // Récupérer l'état du panier depuis Vuex
     panierCount() {
-      return this.panier.length; // Nombre d'articles dans le panier
+      return store.cart.length;  // ou via mapState si tu utilises Vuex
     }
   }
 };

@@ -1,8 +1,8 @@
 <template>
   <div>
-    <!-- Bandeau vert qui contient le titre et le menu -->
-    <div class="header-container" :class="{'scrolled': isScrolled}">
-      <h1 class="site-title" :class="{'hidden': isScrolled}">Bricolage Store</h1>
+    <!-- Bandeau vert contenant le titre et le menu -->
+    <div class="header-container" :class="{'hidden': isScrolled}">
+      <h1 class="site-title">Bricolage Store</h1>
       <nav class="navbar">
         <ul class="nav-list">
           <li><router-link to="/" class="nav-item">Accueil</router-link></li>
@@ -13,14 +13,16 @@
       </nav>
     </div>
 
-    <!-- Barre de navigation noire qui devient fixe après le défilement -->
+    <!-- Barre noire fixe contenant le menu et l'icône du panier -->
     <div class="sticky-nav-bar" :class="{'visible': isScrolled}">
       <ul class="nav-list">
         <li><router-link to="/" class="nav-item">Accueil</router-link></li>
-        <li><router-link to="/store" class="nav-item">Panier</router-link></li>
+        <li><router-link to="/panierAchat" class="nav-item">Panier</router-link></li>
         <li><router-link to="/more" class="nav-item">Commande</router-link></li>
         <li><router-link to="/login" class="nav-item">Connexion</router-link></li>
       </ul>
+      <!-- Icône du panier -->
+      <panierIcone class="panier-icon"></panierIcone>
     </div>
   </div>
 </template>
@@ -30,18 +32,18 @@ export default {
   name: 'monHeader',
   data() {
     return {
-      isScrolled: false, // Variable pour savoir si on a défilé ou non
+      isScrolled: false, // Indique si la page est scrollée
     };
   },
   mounted() {
-    window.addEventListener('scroll', this.handleScroll); // Écouter l'événement de défilement
+    window.addEventListener('scroll', this.handleScroll); // Écoute du défilement
   },
   unmounted() {
-    window.removeEventListener('scroll', this.handleScroll); // Supprimer l'écouteur de défilement
+    window.removeEventListener('scroll', this.handleScroll); // Suppression de l'écoute
   },
   methods: {
     handleScroll() {
-      // Si la page est défilée plus de 100px, cacher le bandeau vert, sinon l'afficher
+      // Détecter si on a défilé plus de 100px
       this.isScrolled = window.scrollY > 100;
     },
   },
@@ -49,53 +51,54 @@ export default {
 </script>
 
 <style scoped>
-/* Conteneur principal du header */
+/* Header contenant le titre (visible uniquement avant défilement) */
 .header-container {
-  background-color: #2f4f4f; /* Gris-bleu pour l'aspect robuste */
-  color: #f1f1f1; /* Texte clair pour le contraste */
-  padding: 10px 20px; /* Réduire l'espace vertical */
-  width: 100%; /* Prend toute la largeur */
-  position: fixed; /* Fixe le header en haut de la page */
+  background-color: #2f4f4f; 
+  color: #f1f1f1; 
+  padding: 10px 20px; 
+  width: 100%; 
+  position: fixed; 
   top: 0;
   left: 0;
   z-index: 1000;
-  transition: opacity 0.3s ease-in-out, padding 0.3s ease-in-out; /* Transition pour le padding et l'opacité */
+  transition: opacity 0.3s ease-in-out, padding 0.3s ease-in-out; 
   display: flex;
-  justify-content: center;
+  justify-content: center; 
   align-items: center;
-  flex-direction: column;
-  box-sizing: border-box; /* Inclure les bordures et padding dans les dimensions */
-  width: 100vw; /* Utiliser 100% de la largeur de la fenêtre pour éviter les débordements */
+  flex-direction: column; 
+  box-sizing: border-box; 
+  width: 100vw; 
+  position: fixed; 
+  top: 0;
 }
 
-/* Effet de défilement : cacher le bandeau vert */
-.header-container.scrolled {
+/* Masquer le header lorsqu'on défile */
+.header-container.hidden {
   opacity: 0;
-  pointer-events: none; /* Empêche les clics lorsque le bandeau est caché */
-  padding-top: 0; /* Réduit l'espace quand on a défilé */
+  pointer-events: none;
+  transform: translateY(-100%);
 }
 
-/* Titre du site */
-.site-title {
-  font-size: 2.5rem; /* Taille réduite du titre */
-  font-weight: bold;
+/* Barre noire fixe après défilement */
+.sticky-nav-bar {
+  background-color: #000;
   color: #f1f1f1;
-  margin: 0;
-  margin-bottom: 10px; /* Espacement entre le titre et le menu */
-  transition: opacity 0.3s ease-in-out; /* Transition pour l'opacité */
-  text-align: center;
-}
-
-/* Cacher le titre lorsqu'on a défilé */
-.site-title.hidden {
-  opacity: 0;
-}
-
-/* Barre de navigation avec menu */
-.navbar {
-  display: flex;
-  justify-content: center;
+  padding: 10px 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
+  display: none;
+  z-index: 1000;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  transition: opacity 0.3s ease;
+}
+
+/* Rendre la barre visible après défilement */
+.sticky-nav-bar.visible {
+  display: flex;
 }
 
 /* Liste de navigation */
@@ -104,13 +107,11 @@ export default {
   display: flex;
   margin: 0;
   padding: 0;
-  width: 100%;
+  flex: 1;
   justify-content: center;
-  text-align: center;
-  box-sizing: border-box;
 }
 
-/* Élément de la navigation */
+/* Élément de navigation */
 .nav-item {
   text-decoration: none;
   color: #f1f1f1;
@@ -118,60 +119,38 @@ export default {
   padding: 10px 15px;
   border-radius: 5px;
   transition: background-color 0.3s ease;
-  flex-grow: 1; /* Pour que les éléments se répartissent également */
 }
 
-/* Changement de couleur au survol */
 .nav-item:hover {
-  background-color: #ff6347; /* Couleur d'accent sur hover (orange) */
+  background-color: #ff6347;
   color: white;
 }
 
-/* Style de la barre de navigation noire qui reste en haut après défilement */
-.sticky-nav-bar {
-  background-color: #000;  /* Noir */
-  padding: 10px 0;
+/* Icône du panier */
+.panier-icon {
   position: fixed;
-  top: 0; /* Positionne la barre en haut de la page après le défilement */
-  left: 0;
-  width: 100%;
-  display: none; /* Masqué par défaut */
-  z-index: 1000; /* Assurez-vous que cette barre reste au-dessus des autres contenus */
-  transition: top 0.3s ease; /* Pour l'animation fluide */
+  top: 10px; 
+  right: 20px;
+  z-index: 1001;
+  cursor: pointer;
+  background-color: #FFFFFF; /* Blanc pur pour contraster avec le noir */
+  color: #14e2c7; /* Icône en noir */
+  padding: 10px;
+  border-radius: 50%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Ombre discrète */
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-/* Affichage de la barre noire après défilement */
-.sticky-nav-bar.visible {
-  display: block;
+/* Ajouter un effet de survol */
+.panier-icon:hover {
+  background-color: #E0E0E0; /* Gris clair survol */
+  transform: scale(1.1); /* Légère mise en avant */
 }
 
-/* Responsivité : adapté aux petits écrans */
 @media (max-width: 768px) {
-  .header-container {
-    padding: 10px 10px; /* Moins de padding sur mobile */
-  }
-
-  .site-title {
-    font-size: 2rem; /* Réduit la taille du titre sur petits écrans */
-    margin-bottom: 5px;
-  }
-
-  .navbar {
-    width: 100%;
-    justify-content: center;
-    margin-top: 10px;
-  }
-
   .nav-list {
     flex-direction: column;
-    width: 100%;
-  }
-
-  .nav-item {
-    margin-left: 0;
-    margin-bottom: 10px;
-    padding: 10px;
-    font-size: 1rem;
+    align-items: center;
   }
 }
 </style>
