@@ -2,39 +2,97 @@
   <div class="container">
     <h1 class="my-comp">Bienvenue sur notre site de matériel de bricolage</h1>
 
+    <!-- Filtres -->
+    <div class="filters">
+      <label for="category">Catégorie :</label>
+      <select id="category" v-model="selectedCategory">
+        <option value="">Toutes les catégories</option>
+        <option value="Outils de base">Outils de base</option>
+        <option value="Matériaux de construction">Matériaux de construction</option>
+        <option value="Équipements de protection">Équipements de protection</option>
+      </select>
+
+      <label for="minPrice">Prix minimum :</label>
+      <input
+        type="number"
+        id="minPrice"
+        v-model.number="minPrice"
+        placeholder="Prix minimum"
+      />
+
+      <label for="maxPrice">Prix maximum :</label>
+      <input
+        type="number"
+        id="maxPrice"
+        v-model.number="maxPrice"
+        placeholder="Prix maximum"
+      />
+    </div>
+
+    <!-- Produits filtrés -->
     <div class="categories-container">
       <!-- Catégorie Outils de base -->
-      <div class="category-card">
+      <div class="category-card" v-if="filteredTools.length > 0">
         <h2>Outils de base</h2>
         <div class="product-list">
-          <div class="product-card" v-for="(product, index) in tools" :key="index">
-            <h3>{{ product.name }}</h3>
-            <p>{{ product.description }}</p>
-            <p class="price">${{ product.price.toFixed(2) }}</p>
+          <div
+            class="product-card"
+            v-for="(product, index) in filteredTools"
+            :key="index"
+          >
+            <!-- Lien cliquable vers les détails du produit -->
+            <router-link
+              :to="`/product/${product.id}`"
+              class="product-link"
+            >
+              <h3>{{ product.name }}</h3>
+              <p>{{ product.description }}</p>
+              <p class="price">{{ product.price.toFixed(2) }} €</p>
+            </router-link>
           </div>
         </div>
       </div>
 
       <!-- Catégorie Matériaux de construction -->
-      <div class="category-card">
+      <div class="category-card" v-if="filteredMaterials.length > 0">
         <h2>Matériaux de construction</h2>
         <div class="product-list">
-          <div class="product-card" v-for="(product, index) in materials" :key="index">
-            <h3>{{ product.name }}</h3>
-            <p>{{ product.description }}</p>
-            <p class="price">${{ product.price.toFixed(2) }}</p>
+          <div
+            class="product-card"
+            v-for="(product, index) in filteredMaterials"
+            :key="index"
+          >
+            <!-- Lien cliquable vers les détails du produit -->
+            <router-link
+              :to="`/product/${product.id}`"
+              class="product-link"
+            >
+              <h3>{{ product.name }}</h3>
+              <p>{{ product.description }}</p>
+              <p class="price">{{ product.price.toFixed(2) }} €</p>
+            </router-link>
           </div>
         </div>
       </div>
 
       <!-- Catégorie Équipements de protection -->
-      <div class="category-card">
+      <div class="category-card" v-if="filteredProtection.length > 0">
         <h2>Équipements de protection</h2>
         <div class="product-list">
-          <div class="product-card" v-for="(product, index) in protection" :key="index">
-            <h3>{{ product.name }}</h3>
-            <p>{{ product.description }}</p>
-            <p class="price">${{ product.price.toFixed(2) }}</p>
+          <div
+            class="product-card"
+            v-for="(product, index) in filteredProtection"
+            :key="index"
+          >
+            <!-- Lien cliquable vers les détails du produit -->
+            <router-link
+              :to="`/product/${product.id}`"
+              class="product-link"
+            >
+              <h3>{{ product.name }}</h3>
+              <p>{{ product.description }}</p>
+              <p class="price">{{ product.price.toFixed(2) }} €</p>
+            </router-link>
           </div>
         </div>
       </div>
@@ -43,43 +101,99 @@
 </template>
 
 <script>
+import api from "../services/api"; // L'instance Axios
+
 export default {
-  name: 'HelloWorld',
+  name: "HelloWorld",
 
   data() {
     return {
-      // Catégorie Outils de base
-      tools: [
-        { name: 'Marteau multifonction', description: 'Marteau pour clouage et démolition.', price: 15.99 },
-        { name: 'Perceuse-visseuse électrique', description: 'Rechargeable avec embouts multiples.', price: 45.50 },
-        { name: 'Tournevis à cliquet', description: 'Kit avec différentes têtes.', price: 22.99 },
-        { name: 'Scie à main universelle', description: 'Scie pour bois, plastique et autres matériaux.', price: 12.75 },
-        { name: 'Mètre ruban', description: 'Mètre ruban 5m avec verrouillage.', price: 7.99 }
-      ],
-
-      // Catégorie Matériaux de construction
-      materials: [
-        { name: 'Ciment en sac', description: 'Ciment pour travaux de maçonnerie.', price: 5.99 },
-        { name: 'Briques creuses', description: 'Pour murs porteurs ou cloisons.', price: 1.50 },
-        { name: 'Plaques de plâtre', description: 'Plaques pour cloisons sèches.', price: 8.25 },
-        { name: 'Tuiles en terre cuite', description: 'Pour toiture et décoration.', price: 2.10 },
-        { name: 'Sable à maçonner', description: 'Sable pour béton et mortier.', price: 4.80 }
-      ],
-
-      // Catégorie Équipements de protection
-      protection: [
-        { name: 'Casque de sécurité', description: 'Casque anti-chocs, ajustable.', price: 18.99 },
-        { name: 'Gants anti-coupure', description: 'Gants résistants pour manipulation.', price: 9.99 },
-        { name: 'Lunettes de protection', description: 'Lunettes contre éclats et poussières.', price: 7.50 },
-        { name: 'Chaussures de sécurité', description: 'Chaussures avec embout renforcé.', price: 25.00 },
-        { name: 'Masques respiratoires FFP2', description: 'Masques contre poussière et particules.', price: 3.75 }
-      ]
+      tools: [],
+      materials: [],
+      protection: [],
+      selectedCategory: "", // Catégorie sélectionnée pour filtrage
+      minPrice: null, // Prix minimum sélectionné
+      maxPrice: null, // Prix maximum sélectionné
     };
-  }
+  },
+
+  async created() {
+    try {
+      // Récupérer les produits depuis l'API
+      const response = await api.get("/products");
+      const products = response.data;
+
+      // Filtrer les données en fonction des catégories
+      this.tools = products.filter(
+        (product) => product.category === "Outils de base"
+      );
+      this.materials = products.filter(
+        (product) => product.category === "Matériaux de construction"
+      );
+      this.protection = products.filter(
+        (product) => product.category === "Équipements de protection"
+      );
+    } catch (error) {
+      console.error("Erreur lors du chargement des produits :", error);
+    }
+  },
+
+  computed: {
+    // Filtrer les outils en fonction des filtres sélectionnés
+    filteredTools() {
+      return this.applyFilters(this.tools);
+    },
+    // Filtrer les matériaux en fonction des filtres sélectionnés
+    filteredMaterials() {
+      return this.applyFilters(this.materials);
+    },
+    // Filtrer les équipements de protection en fonction des filtres sélectionnés
+    filteredProtection() {
+      return this.applyFilters(this.protection);
+    },
+  },
+
+  methods: {
+    // Méthode générique pour appliquer les filtres
+    applyFilters(products) {
+      return products.filter((product) => {
+        const matchesCategory =
+          !this.selectedCategory || product.category === this.selectedCategory;
+        const matchesMinPrice =
+          this.minPrice === null || product.price >= this.minPrice;
+        const matchesMaxPrice =
+          this.maxPrice === null || product.price <= this.maxPrice;
+
+        return matchesCategory && matchesMinPrice && matchesMaxPrice;
+      });
+    },
+  },
 };
 </script>
 
 <style scoped>
+.filters {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.filters label {
+  font-weight: bold;
+}
+
+.filters select,
+.filters input {
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.filters input {
+  width: 150px;
+}
+
 .container {
   display: flex;
   flex-direction: column;
@@ -106,7 +220,7 @@ export default {
   border-radius: 10px;
   padding: 20px;
   margin: 15px;
-  width: 30%;
+  width: 50%;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -142,10 +256,15 @@ export default {
   color: green;
 }
 
-@media (max-width: 768px) {
-  .category-card {
-    width: 100%;
-    margin-bottom: 20px;
-  }
+/* Style pour le lien cliquable */
+.product-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.product-link:hover {
+  background-color: #f0f0f0;
+  border-radius: 5px;
 }
 </style>

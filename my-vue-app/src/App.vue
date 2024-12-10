@@ -1,34 +1,23 @@
 <template>
-  <monheader>
-  </monheader>
-  <nav>
-    <ul>
-      <li><router-link to="/">Home</router-link></li>
-      <li><router-link to="/more">More</router-link></li>
-      <li><router-Link to="/hello">Hello</router-Link></li>
-      <li><router-Link to="/login">connexion</router-Link></li>
-      <li><router-Link to="/store">acheter</router-Link></li>
-    </ul>
-  </nav>
+  <monheader></monheader>
+  <panierIcone></panierIcone>
   <router-view />
-  <img alt="Vue logo" src="./assets/logo.png">*
-  
-<monfooter></monfooter>
+  <monfooter></monfooter>
 </template>
 
 <script>
+import panierIcone from './components/panierIcone.vue'; 
+import '@fortawesome/fontawesome-free/css/all.css';
 import monheader from './components/header.vue'
 import monfooter from './components/footer.vue'
-//import HelloWorld from './components/HelloWorld.vue';
 
 
 export default {
   name: 'App',
   components: {
     monheader,
-  //  HelloWorld,
     monfooter,
-    
+    panierIcone,
   }
 }
 </script>
@@ -42,37 +31,52 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+
 /* Style de la barre de navigation */
 .navbar {
-  background-color: #f8f9fa; /* Couleur de fond (optionnel) */
-  padding: 10px;
+  background-color: #333; /* Couleur de fond du menu (foncé pour un contraste plus net) */
+  padding: 15px 20px; /* Un peu de padding autour du menu */
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 1000; /* Pour que le menu reste au-dessus du contenu */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre discrète sous le menu */
 }
 
-/* Alignement horizontal des éléments */
+/* Liste horizontale avec centrage */
 .nav-list {
-  display: flex; /* Dispose les éléments en ligne */
-  justify-content: center; /* Centrer les éléments (optionnel) */
-  list-style-type: none; /* Supprime les puces des <li> */
+  display: flex; /* Alignement horizontal */
+  justify-content: center; /* Centrage horizontal */
+  list-style-type: none; /* Supprime les puces des éléments */
   padding: 0;
   margin: 0;
 }
 
 /* Style des éléments de la liste */
 .nav-list li {
-  margin: 0 15px; /* Espacement entre les liens */
+  margin: 0 20px; /* Espacement plus large entre les liens */
+  position: relative;
 }
 
 /* Style des liens */
 .nav-list li a {
   text-decoration: none; /* Supprime le soulignement */
-  color: #333; /* Couleur du texte */
-  font-size: 16px; /* Taille du texte */
-  transition: color 0.3s ease; /* Animation pour le hover */
+  color: #fff; /* Couleur du texte (blanc) */
+  font-size: 18px; /* Augmente la taille du texte */
+  font-weight: 500; /* Légèrement gras pour améliorer la lisibilité */
+  padding: 10px 15px; /* Un peu de padding autour du texte pour améliorer l'ergonomie */
+  border-radius: 5px; /* Bords arrondis pour les liens */
+  transition: background-color 0.3s ease, color 0.3s ease; /* Animation pour les effets de survol */
 }
 
-/* Changer la couleur au survol */
+/* Style des liens au survol */
 .nav-list li a:hover {
-  color: #007bff; /* Couleur au survol */
+  background-color: #007bff; /* Fond bleu au survol */
+  color: #fff; /* Garde la couleur blanche au survol */
+}
+
+/* Petit effet lorsque l'on clique sur un lien (active) */
+.nav-list li a:active {
+  transform: scale(0.98); /* Réduit légèrement la taille pour l'effet de pression */
 }
 </style>
-
