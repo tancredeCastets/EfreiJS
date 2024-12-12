@@ -39,6 +39,21 @@ db.serialize(() => {
       });
     }
   });
+  db.serialize(() => {
+    db.run(`
+      CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        email TEXT UNIQUE NOT NULL,
+        password TEXT NOT NULL
+      )
+    `, (err) => {
+      if (err) {
+        console.error('Erreur lors de la création de la table "users":', err);
+      } else {
+        console.log('Table "users" créée avec succès.');
+      }
+    });
+  });
 });
 
 // Fonction pour insérer des données exemple

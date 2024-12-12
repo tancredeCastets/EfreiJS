@@ -178,3 +178,33 @@ app.post('/upload', upload.single('image'), (req, res) => {
 
 // Route pour servir les images
 app.use('/uploads', express.static('uploads'));
+
+
+// Endpoint pour enregistrer une commande
+app.post('/orders', (req, res) => {
+  const { customerName, address, cart, total } = req.body;
+
+  if (!customerName || !address || !cart || !total) {
+    return res.status(400).json({ error: 'Tous les champs sont requis.' });
+  }
+
+  const query = `INSERT INTO orders (customerName, address, total, cart) VALUES (?, ?, ?, ?)`;
+  db.run(query, [customerName, address, total, JSON.stringify(cart)], function (err) {
+    if (err) {
+      res.status(500).json({ error: err.message });
+    } else {
+      res.status(201).json({ message: 'Commande enregistrée avec succès.', orderId: this.lastID });
+    }
+  });
+});
+
+// Endpoint pour récupérer toutes les commandes
+app.get('/orders', (req, res) => {
+  db.all('SELECT * FROM orders', [], (err, rows) => {
+    if (err) {
+      res.status(500).json({ error: err.message });
+    } else {
+      res.json(rows);
+    }
+  });
+});

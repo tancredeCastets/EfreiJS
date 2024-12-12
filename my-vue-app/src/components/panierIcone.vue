@@ -6,13 +6,17 @@
 </template>
 
 <script>
-import { store } from '../panier';  // ou vuex selon ton setup
-
+import { store } from '../panier';  
 export default {
   name: 'panierIcone',
   computed: {
     panierCount() {
-      return store.cart.length;  // ou via mapState si tu utilises Vuex
+      return store.cart.length;  
+    }
+  },
+  methods: {
+    goToCart() {   
+      this.$router.push('/panier');  
     }
   }
 };
@@ -22,18 +26,20 @@ export default {
 .panier-icon-container {
   position: relative;
   display: inline-block;
+  cursor: pointer;
 }
 
 .panier-icon {
   font-size: 2rem;
-  color: #333;
+  color: white;  
+  z-index: 10;   
 }
 
 .panier-badge {
   position: absolute;
   top: -5px;
   right: -5px;
-  background-color: #ff6347; /* Orange */
+  background-color: #ff6347; 
   color: white;
   border-radius: 50%;
   width: 20px;
@@ -41,5 +47,6 @@ export default {
   text-align: center;
   font-size: 12px;
   line-height: 20px;
+  z-index: 20; 
 }
 </style>

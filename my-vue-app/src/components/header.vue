@@ -1,19 +1,18 @@
 <template>
   <div>
-    <!-- Bandeau vert contenant le titre et le menu -->
     <div class="header-container" :class="{'hidden': isScrolled}">
       <h1 class="site-title">Bricolage Store</h1>
       <nav class="navbar">
         <ul class="nav-list">
           <li><router-link to="/" class="nav-item">Accueil</router-link></li>
           <li><router-link to="/panierAchat" class="nav-item">Panier</router-link></li>
-          <li><router-link to="/more" class="nav-item">Commande</router-link></li>
-          <li><router-link to="/login" class="nav-item">Connexion</router-link></li>
+          <li><router-link to="/ordre" class="nav-item">Commande</router-link></li>
+          <li><router-link to="/login" class="nav-item">Connexion</router-link></li>  
         </ul>
+        <panierIcone class="panier-icon"></panierIcone>
       </nav>
     </div>
 
-    <!-- Barre noire fixe contenant le menu et l'icône du panier -->
     <div class="sticky-nav-bar" :class="{'visible': isScrolled}">
       <ul class="nav-list">
         <li><router-link to="/" class="nav-item">Accueil</router-link></li>
@@ -21,7 +20,6 @@
         <li><router-link to="/more" class="nav-item">Commande</router-link></li>
         <li><router-link to="/login" class="nav-item">Connexion</router-link></li>
       </ul>
-      <!-- Icône du panier -->
       <panierIcone class="panier-icon"></panierIcone>
     </div>
   </div>

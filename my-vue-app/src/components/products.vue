@@ -15,12 +15,16 @@
 
     <!-- Bouton Ajouter au panier -->
     <button @click="addToCart(product)">Ajouter au panier</button>
+
+    <!-- Notification -->
+    <div v-if="showNotification" class="notification">
+      {{ notificationMessage }}
+    </div>
   </div>
 </template>
 
 <script>
-import { store } from "../panier"; // Importer le store pour gérer le panier
-import api from "../services/api"; // Requête API pour récupérer les détails du produit
+import api from "../services/api";
 
 export default {
   name: "ProductDetails",
@@ -28,6 +32,8 @@ export default {
   data() {
     return {
       product: null, // Stocker les détails du produit
+      showNotification: false, // Pour afficher une notification temporaire
+      notificationMessage: "", // Message de la notification
     };
   },
 
@@ -35,7 +41,7 @@ export default {
     const productId = this.$route.params.id; // Récupérer l'ID du produit depuis l'URL
     try {
       const response = await api.get(`/products/${productId}`);
-      this.product = response.data; // Assigner le produit récupéré au store
+      this.product = response.data; // Assigner le produit récupéré
     } catch (error) {
       console.error("Erreur lors du chargement des détails du produit", error);
     }
@@ -47,7 +53,23 @@ export default {
     },
 
     addToCart(product) {
-      store.addToCart(product); // Ajouter le produit au panier
+      // Charger le panier actuel depuis le localStorage
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+      // Vérifier si le produit est déjà dans le panier
+      const existingProduct = cart.find(item => item.id === product.id);
+      if (existingProduct) {
+        // Si le produit existe, augmenter la quantité
+        existingProduct.quantity += 1;
+      } else {
+        // Si le produit n'existe pas, l'ajouter avec une quantité de 1
+        cart.push({ ...product, quantity: 1 });
+      }
+
+      // Sauvegarder le panier dans le localStorage
+      localStorage.setItem("cart", JSON.stringify(cart));
+
+      // Afficher une notification à l'utilisateur
       this.notificationMessage = `${product.name} a été ajouté au panier !`;
       this.showNotification = true;
 
@@ -102,6 +124,7 @@ button:hover {
 }
 
 .back-button {
+  background-color: #007bff;
   position: absolute;
   top: 20px;
   left: 20px;
@@ -109,12 +132,23 @@ button:hover {
   font-size: 16px;
   border: none;
   background: none;
-  color: #007bff;
+  color: rgb(82, 24, 24);
   cursor: pointer;
-  text-decoration: underline;
+  
 }
 
 .back-button:hover {
-  color: #0056b3;
+  color: #ffffff;
+}
+
+.notification {
+  position: fixed;
+  top: 120px;
+  right: 20px;
+  background-color: #007bff;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 </style>

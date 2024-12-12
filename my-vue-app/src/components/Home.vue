@@ -2,7 +2,6 @@
   <div class="container">
     <h1 class="my-comp">Bienvenue sur notre site de matériel de bricolage</h1>
 
-    <!-- Filtres -->
     <div class="filters">
       <label for="category">Catégorie :</label>
       <select id="category" v-model="selectedCategory">
@@ -28,10 +27,8 @@
         placeholder="Prix maximum"
       />
     </div>
-
-    <!-- Produits filtrés -->
-    <div class="categories-container">
-      <!-- Catégorie Outils de base -->
+  
+    <div class="categories-container">     
       <div class="category-card" v-if="filteredTools.length > 0">
         <h2>Outils de base</h2>
         <div class="product-list">
@@ -39,8 +36,7 @@
             class="product-card"
             v-for="(product, index) in filteredTools"
             :key="index"
-          >
-            <!-- Lien cliquable vers les détails du produit -->
+          >         
             <router-link
               :to="`/product/${product.id}`"
               class="product-link"
@@ -52,8 +48,7 @@
           </div>
         </div>
       </div>
-
-      <!-- Catégorie Matériaux de construction -->
+     
       <div class="category-card" v-if="filteredMaterials.length > 0">
         <h2>Matériaux de construction</h2>
         <div class="product-list">
@@ -62,7 +57,7 @@
             v-for="(product, index) in filteredMaterials"
             :key="index"
           >
-            <!-- Lien cliquable vers les détails du produit -->
+            
             <router-link
               :to="`/product/${product.id}`"
               class="product-link"
@@ -75,7 +70,6 @@
         </div>
       </div>
 
-      <!-- Catégorie Équipements de protection -->
       <div class="category-card" v-if="filteredProtection.length > 0">
         <h2>Équipements de protection</h2>
         <div class="product-list">
@@ -84,7 +78,6 @@
             v-for="(product, index) in filteredProtection"
             :key="index"
           >
-            <!-- Lien cliquable vers les détails du produit -->
             <router-link
               :to="`/product/${product.id}`"
               class="product-link"
@@ -101,7 +94,7 @@
 </template>
 
 <script>
-import api from "../services/api"; // L'instance Axios
+import api from "../services/api"; 
 
 export default {
   name: "HelloWorld",
@@ -111,19 +104,17 @@ export default {
       tools: [],
       materials: [],
       protection: [],
-      selectedCategory: "", // Catégorie sélectionnée pour filtrage
-      minPrice: null, // Prix minimum sélectionné
-      maxPrice: null, // Prix maximum sélectionné
+      selectedCategory: "", 
+      minPrice: null, 
+      maxPrice: null, 
     };
   },
 
   async created() {
     try {
-      // Récupérer les produits depuis l'API
       const response = await api.get("/products");
       const products = response.data;
 
-      // Filtrer les données en fonction des catégories
       this.tools = products.filter(
         (product) => product.category === "Outils de base"
       );

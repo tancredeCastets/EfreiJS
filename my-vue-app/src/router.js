@@ -1,12 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from './components/Home.vue';
 import Store from './components/store.vue';
-import More from './components/AppEvenMore.vue';
 import HelloWorld from './components/HelloWorld.vue';
 import Login from './components/login.vue';
 import Products from './components/products';
 import ProductDetails from './components/products';
 import PanierAchat from './components/panierAchat.vue';
+import Payement from './components/payement.vue';
+import Ordre from './components/ordre.vue';
 
 const router = createRouter({
     history: createWebHistory(),
@@ -15,11 +16,6 @@ const router = createRouter({
             path: '/',
             name: 'Home',
             component: Home
-        },
-        {
-            path: '/more',
-            name: 'More',
-            component: More
         },
         {
             path: '/hello',
@@ -51,6 +47,18 @@ const router = createRouter({
             name: 'PanierAchat',
             component: PanierAchat
         },
+
+        {
+            path: '/payement',
+            name: 'payement',
+            component: Payement 
+        },
+
+        {
+            path: '/ordre',
+            name: 'ordre',
+            component: Ordre 
+        }
 
     ]
 });

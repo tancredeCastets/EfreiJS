@@ -1,55 +1,65 @@
 <template>
-    <div class="Panier-Achat">
-      <h2>Votre Panier</h2>
-  
-      <div v-if="cart.length === 0">
-        <p>Votre panier est vide.</p>
-      </div>
-  
-      <div v-else>
-        <ul>
-          <li v-for="item in cart" :key="item.id">
-            <p>{{ item.name }} - {{ item.quantity }} x {{ item.price.toFixed(2) }} €</p>
-            <button @click="removeFromCart(item.id)">Retirer</button>
-          </li>
-        </ul>
-        <p><strong>Total : {{ total.toFixed(2) }} €</strong></p>
-        <button @click="clearCart">Vider le panier</button>
-      </div>
+  <div class="Panier-Achat">
+    <h2>Votre Panier</h2>
+
+    <div v-if="cart.length === 0">
+      <p>Votre panier est vide.</p>
     </div>
-  </template>
-  
-  <script>
-  import { store } from "../panier"; // Importer le store
-  
-  export default {
-    name: "PanierAchat",
-  
-    computed: {
-      // Obtenir les produits du panier depuis le store
-      cart() {
-        return store.cart;
-      },
-  
-      // Calculer le total du panier
-      total() {
-        return store.getTotal();
-      },
+
+    <div v-else>
+      <ul>
+        <li v-for="item in cart" :key="item.id">
+          <p>{{ item.name }} - {{ item.quantity }} x {{ item.price.toFixed(2) }} €</p>
+          <button @click="removeFromCart(item.id)">Retirer</button>
+        </li>
+      </ul>
+      <p><strong>Total : {{ total.toFixed(2) }} €</strong></p>
+      <button @click="clearCart">Vider le panier</button>
+      <button @click="redirectToPayment">Payer</button>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "PanierAchat",
+  data() {
+    return {
+      cart: JSON.parse(localStorage.getItem("cart")) || [], // Initialisation à partir de localStorage
+    };
+  },
+  computed: {
+    total() {
+      return this.cart.reduce((acc, item) => acc + item.quantity * item.price, 0);
     },
-  
-    methods: {
-      // Retirer un produit du panier
-      removeFromCart(productId) {
-        store.removeFromCart(productId);
-      },
-  
-      // Vider le panier
-      clearCart() {
-        store.clearCart();
-      },
+  },
+  methods: {
+    removeFromCart(productId) {
+      this.cart = this.cart.filter((item) => item.id !== productId);
+      this.saveCartToLocalStorage();
     },
-  };
-  </script>
+    clearCart() {
+      this.cart = [];
+      this.saveCartToLocalStorage();
+    },
+    saveCartToLocalStorage() {
+      localStorage.setItem("cart", JSON.stringify(this.cart));
+    },
+    redirectToPayment() {
+      this.$router.push("/payement");
+    },
+  },
+  watch: {
+    cart: {
+      handler() {
+        this.saveCartToLocalStorage();
+      },
+      deep: true,
+    },
+  },
+};
+</script>
+
   
   <style scoped>
   .panier {
