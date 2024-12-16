@@ -66,7 +66,7 @@ function insertExampleData() {
   // Données pour 'Outils de base'
   insertStmt.run('Marteau multifonction', 'Outils de base', 'Marteau pour clouage et démolition.', 15.99,'marteau.png');
   insertStmt.run('Perceuse-visseuse électrique', 'Outils de base', 'Rechargeable avec embouts multiples.', 45.50,'perceuse.png');
-  insertStmt.run('Tournevis à cliquet', 'Outils de base', 'Kit avec différentes têtes.', 22.99,'tournevis');
+  insertStmt.run('Tournevis à cliquet', 'Outils de base', 'Kit avec différentes têtes.', 22.99,'tournevis.png');
   insertStmt.run('Scie à main universelle', 'Outils de base', 'Scie pour bois, plastique et autres matériaux.', 12.75,'scie.png');
   insertStmt.run('Mètre ruban', 'Outils de base', 'Mètre ruban 3m avec verrouillage.', 7.99,'metre.png');
 
