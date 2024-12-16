@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="header-container" :class="{'hidden': isScrolled}">
-      <h1 class="site-title">Bricolage Store</h1>
+      <h1 class="site-title">Bricole&Co</h1>
       <nav class="navbar">
         <ul class="nav-list">
           <li><router-link to="/" class="nav-item">Accueil</router-link></li>
@@ -49,37 +49,33 @@ export default {
 </script>
 
 <style scoped>
-/* Header contenant le titre (visible uniquement avant défilement) */
+/* Header contenant le titre et l'image de fond */
 .header-container {
-  background-color: #2f4f4f; 
+  background-image: url('@/assets/fonds-aplication.png'); 
+  background-size: cover; 
+  background-position: center; 
+  background-attachment: fixed; 
   color: #f1f1f1; 
-  padding: 10px 20px; 
+  padding: 80px 20px; 
+  text-align: center;
   width: 100%; 
   position: fixed; 
   top: 0;
   left: 0;
   z-index: 1000;
-  transition: opacity 0.3s ease-in-out, padding 0.3s ease-in-out; 
-  display: flex;
-  justify-content: center; 
-  align-items: center;
-  flex-direction: column; 
-  box-sizing: border-box; 
-  width: 100vw; 
-  position: fixed; 
-  top: 0;
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 
-/* Masquer le header lorsqu'on défile */
+/* Masquer progressivement le header */
 .header-container.hidden {
   opacity: 0;
   pointer-events: none;
-  transform: translateY(-100%);
+  transform: translateY(-50%);
 }
 
-/* Barre noire fixe après défilement */
+/* Sticky nav-bar visible après scroll */
 .sticky-nav-bar {
-  background-color: #000;
+  background-color: rgba(0, 0, 0, 0.9); 
   color: #f1f1f1;
   padding: 10px 20px;
   position: fixed;
@@ -90,13 +86,12 @@ export default {
   z-index: 1000;
   align-items: center;
   justify-content: space-between;
-  flex-direction: row;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease-in-out;
 }
 
-/* Rendre la barre visible après défilement */
 .sticky-nav-bar.visible {
   display: flex;
+  opacity: 1;
 }
 
 /* Liste de navigation */
@@ -123,6 +118,30 @@ export default {
   background-color: #ff6347;
   color: white;
 }
+/* Style du titre avec un fond brouillé */
+.site-title {
+  font-size: 3rem; 
+  color: #ffffff; 
+  padding: 10px 20px;
+  text-align: center;
+  position: relative;
+  z-index: 10;
+}
+
+/* Fond brouillé derrière le titre */
+.site-title::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  backdrop-filter: blur(8px); 
+  background-color: rgba(0, 0, 0, 0.4); 
+  border-radius: 8px; 
+  z-index: -1; 
+}
+
 
 /* Icône du panier */
 .panier-icon {
@@ -131,18 +150,18 @@ export default {
   right: 20px;
   z-index: 1001;
   cursor: pointer;
-  background-color: #FFFFFF; /* Blanc pur pour contraster avec le noir */
-  color: #14e2c7; /* Icône en noir */
+  background-color: #FFFFFF; 
+  color: #14e2c7; 
   padding: 10px;
   border-radius: 50%;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Ombre discrète */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); 
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 /* Ajouter un effet de survol */
 .panier-icon:hover {
-  background-color: #E0E0E0; /* Gris clair survol */
-  transform: scale(1.1); /* Légère mise en avant */
+  background-color: #E0E0E0; 
+  transform: scale(1.1); 
 }
 
 @media (max-width: 768px) {

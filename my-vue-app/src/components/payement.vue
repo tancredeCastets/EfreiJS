@@ -7,7 +7,15 @@
       </li>
     </ul>
     <p><strong>Total : {{ total.toFixed(2) }} €</strong></p>
-    <button @click="confirmPayment">Confirmer et Payer</button>
+
+    <!-- Conteneur des boutons -->
+    <div class="button-container">
+      <!-- Annuler -->
+      <button @click="cancelPayment" class="cancel-button">Annuler</button>
+
+      <!-- Payer -->
+      <button @click="confirmPayment" class="pay-button">Confirmer et Payer</button>
+    </div>
   </div>
 </template>
 
@@ -45,17 +53,56 @@ export default {
       localStorage.removeItem("cart");
 
       alert("Commande confirmée ! Merci pour votre achat.");
-      this.$router.push("/orders"); // Rediriger vers la page des commandes
+      this.$router.push("/ordre"); // Rediriger vers la page des commandes
+    },
+
+    cancelPayment() {
+      // Rediriger vers la page du panier
+      this.$router.push("/panierAchat");
     },
   },
 };
 </script>
 
 <style scoped>
-.payment {
+.payment-page {
   padding: 20px;
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 200px; /* Limiter la largeur */
+  margin: 0 10px; /* Espacement entre les boutons */
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px; /* Espace entre les boutons */
+  margin-top: 20px;
+}
+
+.pay-button {
+  background-color: #ff6347;
+  color: white;
+}
+
+.pay-button:hover {
+  background-color: #e5533d;
+}
+
+.cancel-button {
+  background-color: #cccccc;
+  color: white;
+}
+
+.cancel-button:hover {
+  background-color: #b0b0b0;
 }
 </style>

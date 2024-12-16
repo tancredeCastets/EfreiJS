@@ -5,7 +5,7 @@
       <div class="contact-info">
         <p>
           <span class="icon">📍</span>
-          <strong>Adresse : </strong> 123 Rue des Outils, 75000 Paris
+          <strong>Adresse : </strong> 123 Rue des Outils, 33500 Libourne
         </p>
         <p>
           <span class="icon">📞</span>
@@ -14,14 +14,14 @@
         <p>
           <span class="icon">✉️</span>
           <strong>Email : </strong>
-          <a href="mailto:contact@bricolage-store.com" class="email-link">
-            contact@bricolage-store.com
+          <a href="mailto:contact@Bricole&Co.com" class="email-link">
+            contact@Bricole&Co.com
           </a>
         </p>
       </div>
     </div>
     <div class="footer-bottom">
-      <p>&copy; 2024 Bricolage Store - Tous droits réservés</p>
+      <p>&copy; 2024 Bricole&Co - Tous droits réservés</p>
     </div>
   </div>
 </template>
@@ -33,98 +33,73 @@ export default {
 </script>
 
 <style scoped>
-/* Conteneur principal du footer */
 .footer-container {
-  background-color: #2f4f4f; /* Gris-bleu pour un effet robuste et professionnel */
-  color: #f1f1f1; /* Texte en blanc cassé pour un contraste doux */
-  padding: 40px 0;
-  width: 100%;
-  border-top: 2px solid #ff6347; /* Ligne de séparation en orange pour plus de contraste */
-  flex-shrink: 0; /* Empêche le footer de se rétrécir dans une structure Flexbox */
-}
-
-/* Contenu principal du footer */
-.footer-content {
-  text-align: left;
-  margin-bottom: 20px;
-}
-
-.footer-content h2 {
-  font-size: 1.6rem;
-  font-weight: bold;
+  background-image: url("../assets/fonds-aplication.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   color: #f1f1f1;
-  margin-bottom: 15px;
+  padding: 20px 10px;
+  width: 100%;
+  border-top: 1px solid #f76c47;
+  font-size: 0.8rem;
+  position: relative;
 }
 
-/* Informations de contact */
-.contact-info p {
-  font-size: 1rem;
-  margin: 10px 0;
-  color: #ccc;
-  line-height: 1.5;
+.footer-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  z-index: 1;
 }
 
-/* Icônes de contact */
-.icon {
-  margin-right: 10px;
+.footer-content,
+.footer-bottom {
+  position: relative;
+  z-index: 10;
+  padding: 0px 20px;
+}
+
+.footer-content h2,
+.contact-info p,
+.footer-bottom p {
   font-size: 1.2rem;
-  color: #ff6347; /* Couleur orange pour les icônes */
+  text-align: center;
+  margin: 10px 0;
+  color: #ffffff;
+  font-weight: bold;
 }
 
-/* Lien d'email */
+.contact-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.icon {
+  margin-right: 5px;
+  font-size: 1.5rem;
+  color: #f76c47;
+}
+
 .email-link {
-  color: #ff6347;
-  text-decoration: underline;
-  font-weight: bold;
+  color: #f76c47;
+  text-decoration: none;
 }
 
 .email-link:hover {
   color: darkblue;
-  text-decoration: none;
 }
 
-/* Pied de page */
 .footer-bottom {
-  text-align: center;
-  font-size: 0.9rem;
-  color: #ccc;
-  margin-top: 20px;
-}
-
-/* Responsiveness : Assurez-vous que tout est bien espacé sur les petits écrans */
-@media (max-width: 600px) {
-  .footer-container {
-    padding: 30px 10px;
-  }
-
-  .footer-content h2 {
-    font-size: 1.4rem;
-  }
-
-  .contact-info p {
-    font-size: 0.9rem;
-  }
-
-  .footer-bottom {
-    font-size: 0.8rem;
-  }
-}
-
-html, body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box;
-}
-
-#app {
-  display: flex;
-  flex-direction: column;
-  min-height: 100%;
-}
-
-footer {
-  margin-top: auto; /* Cela pousse le footer vers le bas */
+  font-size: 1rem;
+  color: #ffffff;
 }
 </style>
